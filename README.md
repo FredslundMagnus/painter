@@ -1,1 +1,1 @@
-# painter
+A simple command-line application.
