@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Painter {
   static Paint paint({Color? color, PaintingStyle? style, double? strokeWidth}) {
-    Paint p = Paint();
+    var p = Paint();
     if (color != null) p.color = color;
     if (style != null) p.style = style;
     if (strokeWidth != null) p.strokeWidth = strokeWidth;
@@ -10,7 +10,7 @@ class Painter {
   }
 
   static void circleShader(Canvas canvas, Color centerColor, Color sideColor, Offset center, double radius) {
-    Paint p = Paint()
+    var p = Paint()
       ..shader = RadialGradient(colors: [
         centerColor,
         sideColor,
@@ -26,12 +26,12 @@ class Painter {
   }
 
   static void circle(Canvas canvas, Offset center, double radius, Color color, [double? elevation]) {
-    Path path = Path()..addOval(Rect.fromCircle(center: center, radius: radius));
+    var path = Path()..addOval(Rect.fromCircle(center: center, radius: radius));
     Painter.path(canvas, path, color, elevation);
   }
 
   static void ring(Canvas canvas, Offset center, double radius, double strokeWith, Color color, [double? elevation]) {
-    Path path = Path.combine(
+    var path = Path.combine(
       PathOperation.difference,
       Path()..addOval(Rect.fromCircle(center: center, radius: radius + strokeWith / 2)),
       Path()..addOval(Rect.fromCircle(center: center, radius: radius - strokeWith / 2)),
@@ -41,7 +41,7 @@ class Painter {
   }
 
   static void rRectBorder(Canvas canvas, Offset center, Size size, double radius, double borderWidth, Color color, [double? elevation]) {
-    Path path = Path.combine(
+    var path = Path.combine(
       PathOperation.difference,
       Path()..addRRect(RRect.fromLTRBR(center.dx - size.width / 2 - borderWidth / 2, center.dy + size.height / 2 + borderWidth / 2, center.dx + size.width / 2 + borderWidth / 2, center.dy - size.height / 2 - borderWidth / 2, Radius.circular(radius + borderWidth / 2))),
       Path()..addRRect(RRect.fromLTRBR(center.dx - size.width / 2 + borderWidth / 2, center.dy + size.height / 2 - borderWidth / 2, center.dx + size.width / 2 - borderWidth / 2, center.dy - size.height / 2 + borderWidth / 2, Radius.circular(radius - borderWidth / 2))),
@@ -51,7 +51,12 @@ class Painter {
   }
 
   static void rRect(Canvas canvas, Offset center, Size size, double radius, Color color, [double? elevation]) {
-    Path path = Path()..addRRect(RRect.fromLTRBR(center.dx - size.width / 2, center.dy - size.height / 2, center.dx + size.width / 2, center.dy + size.height / 2, Radius.circular(radius)));
+    var path = Path()..addRRect(RRect.fromRectAndRadius(Rect.fromCenter(center: center, width: size.width, height: size.height), Radius.circular(radius)));
+    Painter.path(canvas, path, color, elevation);
+  }
+
+  static void rect(Canvas canvas, Offset center, Size size, Color color, [double? elevation]) {
+    var path = Path()..addRect(Rect.fromCenter(center: center, width: size.width, height: size.height));
     Painter.path(canvas, path, color, elevation);
   }
 
